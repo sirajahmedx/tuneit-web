@@ -112,13 +112,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   }
   return true;
 },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.sub || ''
-        session.accessToken = token.accessToken || ''
-      }
-      return session
-    },
+   async session({ session, token }) {
+  if (token && session.user) {
+    session.user.id = (token.sub as string) || ''
+    session.accessToken = (token.accessToken as string) || ''
+  }
+  return session
+},
     async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token
