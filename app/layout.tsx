@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { headers } from "next/headers";
 import Header from "@/components/header";
 import ApolloProviderWrapper from "@/components/apollo-provider";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,8 +47,10 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <ApolloProviderWrapper>
-            {!isAuthPage && <Header />}
-            {children}
+            <SessionProvider>
+              {!isAuthPage && <Header />}
+              {children}
+            </SessionProvider>
           </ApolloProviderWrapper>
         </ThemeProvider>
       </body>

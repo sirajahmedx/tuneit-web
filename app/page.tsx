@@ -1,4 +1,6 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
 
 export default function Home() {
   return (
@@ -8,7 +10,7 @@ export default function Home() {
         <p className="text-lg mb-8">
           Connect with verified mechanics instantly.
         </p>
-        <Button size="lg" variant="destructive">
+        <Button size="lg" variant="destructive" onClick={() => signOut()}>
           Get Started
         </Button>
       </main>
