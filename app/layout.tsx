@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { headers } from "next/headers";
+import Header from "@/components/header";
 import ApolloProviderWrapper from "@/components/apollo-provider";
 
 const geistSans = localFont({
@@ -21,11 +23,17 @@ export const metadata: Metadata = {
     "A platform for car owners to post issues and connect with verified mechanics instantly.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerList = headers();
+  const pathname = headerList.get("x-current-path");
+
+  const isAuthPage =
+    pathname?.includes("/sign-in") || pathname?.includes("/sign-up");
+
   return (
     <html lang="en">
       <body
@@ -37,7 +45,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ApolloProviderWrapper>{children}</ApolloProviderWrapper>
+          <ApolloProviderWrapper>
+            {!isAuthPage && <Header />}
+            {children}
+          </ApolloProviderWrapper>
         </ThemeProvider>
       </body>
     </html>
