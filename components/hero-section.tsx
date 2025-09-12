@@ -2,8 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 export function HeroSection() {
+  const { theme } = useTheme();
+
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-screen w-screen text-center px-4">
       <div className="max-w-4xl mx-auto">
@@ -17,7 +20,7 @@ export function HeroSection() {
           <Button
             size="lg"
             asChild
-            className="bg-white text-black hover:bg-gray-100 px-8 py-4 text-lg"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg"
           >
             <Link href="/sign-up?role=user">Sign up as User</Link>
           </Button>
@@ -25,7 +28,7 @@ export function HeroSection() {
             size="lg"
             variant="outline"
             asChild
-            className="border-white text-white hover:bg-white hover:text-black px-8 py-4 text-lg"
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
           >
             <Link href="/sign-up?role=mechanic">Sign up as Mechanic</Link>
           </Button>

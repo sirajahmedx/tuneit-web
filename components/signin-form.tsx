@@ -8,16 +8,58 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useMutation } from "@apollo/client";
+import { SignInMutation } from "@/app/(auth)/queries.js";
+import { useState } from "react";
 
 export function SignInForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [SignIn, { loading, error }] = useMutation(SignInMutation);
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      console.log("Attempting sign-in with:", {
+        email: user.email,
+        password: "***",
+      });
+
+      if (!SignIn) {
+        throw new Error(
+          "SignIn mutation is not available. Apollo Client may not be initialized."
+        );
+      }
+
+      const { data } = await SignIn({
+        variables: {
+          input: {
+            email: user.email,
+            password: user.password,
+          },
+        },
+      });
+      console.log("Sign-in successful:", data);
+      // Handle successful sign-in (e.g., redirect, store token, etc.)
+    } catch (err) {
+      console.error("Error during sign-in:", err);
+      // Handle error (e.g., show error message to user)
+      const errorMessage =
+        err instanceof Error ? err.message : "An unknown error occurred";
+      alert(`Sign-in failed: ${errorMessage}`);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-4", className)} {...props}>
       <Card className="overflow-hidden p-0 h-[500px]">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-4 md:p-6">
+          <form className="p-4 md:p-6" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6 py-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -30,7 +72,8 @@ export function SignInForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="me@example.com"
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
                   required
                 />
               </div>
@@ -44,7 +87,15 @@ export function SignInForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="********"
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                  required
+                />
               </div>
               <Button type="submit" className="w-full">
                 Login
