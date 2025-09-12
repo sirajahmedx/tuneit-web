@@ -4,7 +4,6 @@ import { createApolloClient } from "./lib/apollo"
 import { gql } from "@apollo/client"
 import { setCookie } from 'cookies-next'
 
-// Extend next-auth types
 declare module "next-auth" {
 interface Session {
     user: {
@@ -27,7 +26,7 @@ const GOOGLE_AUTH_MUTATION = gql`
       success
       token
       user {
-        _id        # Fixed: Changed from 'id' to '_id'
+        _id        
         email
         first_name
         last_name
@@ -51,22 +50,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
   async signIn({ user, account }) {
   if (account?.provider === "google") {
-    try {
-      console.log("Starting Google auth process...");
+    try { 
       const apollo = createApolloClient();
       
-      console.log("Sending mutation with variables:", {
-        input: {
-          email: user.email || '',
-          first_name: user.name?.split(" ")[0] || '',
-          last_name: user.name?.split(" ")[1] || '',
-          provider: "google",
-          google_id: account.providerAccountId || '',
-          picture: user.image || '',
-          access_token: account.access_token || '',
-          id_token: account.id_token || ''
-        }
-      });
+     
 
       const { data } = await apollo.mutate({
         mutation: GOOGLE_AUTH_MUTATION,
@@ -84,10 +71,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       });
 
-      console.log("GraphQL response:", data);
 
       if (data?.googleAuth?.success) {
-        console.log("Auth successful, setting cookie...");
         setCookie('token', data.googleAuth.token, {
           maxAge: 30 * 24 * 60 * 60,
           path: '/',
@@ -96,8 +81,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         return true;
       } else {
-        console.log("Auth failed - success was false or data missing");
-        console.log("Full response:", JSON.stringify(data, null, 2));
         return false;
       }
     } catch (error: any) {

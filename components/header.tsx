@@ -17,23 +17,25 @@ const Header: React.FC = () => {
     : "";
 
   return (
-    <header className="flex justify-between items-center p-3.5 bg-background border-b border-gray-500">
-      <h1 className="text-2xl font-bold">TuneIt</h1>
-      <div className="flex items-center gap-4">
-        <ThemeToggle />
-        {session ? (
-          <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback>{initial}</AvatarFallback>
-            </Avatar>
-          </div>
-        ) : (
-          <Link href="/sign-in" passHref>
-            <Button onClick={() => navigate("/sign-in")} variant="default">
-              Sign In
-            </Button>
-          </Link>
-        )}
+    <header className="fixed top-0 left-0 right-0 z-50 w-full flex justify-between items-center p-3.5 bg-background border-b border-gray-500">
+      <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+        <h1 className="text-2xl font-bold">TuneIt</h1>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          {session ? (
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback>{initial}</AvatarFallback>
+              </Avatar>
+            </div>
+          ) : (
+            <Link href="/sign-in" passHref>
+              <Button onClick={() => navigate("/sign-in")} variant="default">
+                Sign In
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   );

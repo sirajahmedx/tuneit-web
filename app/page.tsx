@@ -1,19 +1,14 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
+import { ImageCarousel } from "@/components/image-carousel";
+import { HeroSection } from "@/components/hero-section";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-[calc(100vh-66px)] bg-background">
-      <main className="flex flex-1 flex-col items-center justify-center text-center">
-        <h2 className="text-4xl font-bold mb-4">Welcome to TuneIt Web</h2>
-        <p className="text-lg mb-8">
-          Connect with verified mechanics instantly.
-        </p>
-        <Button size="lg" variant="destructive" onClick={() => signOut()}>
-          Get Started
-        </Button>
-      </main>
-    </div>
+    <main className="relative w-screen h-screen overflow-hidden">
+      {/* Full-screen image carousel background */}
+      <ImageCarousel />
+
+      {/* Hero content with glassmorphism card */}
+      <HeroSection />
+    </main>
   );
 }
