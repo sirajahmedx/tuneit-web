@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,23 +6,112 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import {
+  CREATE_MECHANIC_MUTATION,
+  CREATE_CUSTOMER_MUTATION,
+} from "@/lib/queries";
+import { useRouter } from "next/navigation";
 
 export function SignUpForm({
+  role,
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & { role?: string }) {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    gender: "",
+    experience: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const [createCustomer] = useMutation(CREATE_CUSTOMER_MUTATION);
+  const [createMechanic] = useMutation(CREATE_MECHANIC_MUTATION);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id === "firstName" ? "firstName" : id === "lastName" ? "lastName" : id]:
+        value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      if (role === "user") {
+        const { data } = await createCustomer({
+          variables: {
+            input: {
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              email: formData.email,
+              password: formData.password,
+              role: role || "user",
+              gender: formData.gender || "male",
+            },
+          },
+        });
+
+        if (data?.createCustomer?.success) {
+          router.push("/sign-in?message=Account created successfully");
+        } else {
+          setError(data?.createCustomer?.message || "Failed to create account");
+        }
+      } else if (role === "mechanic") {
+        const { data } = await createMechanic({
+          variables: {
+            input: {
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              email: formData.email,
+              password: formData.password,
+              role: role || "mechanic",
+              experience: formData.experience || "0",
+            },
+          },
+        });
+
+        if (data?.createMechanic?.success) {
+          router.push("/sign-in?message=Account created successfully");
+        } else {
+          setError(data?.createMechanic?.message || "Failed to create account");
+        }
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred during sign up");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-4", className)} {...props}>
       <Card className="overflow-hidden p-0 h-[500px]">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-4 md:p-6">
+          <form onSubmit={handleSubmit} className="p-4 md:p-6">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Create an account</h1>
                 <p className="text-muted-foreground text-balance">
-                  Sign up to get started with TuneIt Web
+                  Sign up as {role === "mechanic" ? "a Mechanic" : "a User"}
                 </p>
               </div>
+              {error && (
+                <div className="text-red-500 text-sm text-center bg-red-50 p-2 rounded">
+                  {error}
+                </div>
+              )}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
@@ -29,12 +119,21 @@ export function SignUpForm({
                     id="firstName"
                     type="text"
                     placeholder="John"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div>
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" type="text" placeholder="Doe" required />
+                  <Input
+                    id="lastName"
+                    type="text"
+                    placeholder="Doe"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
               </div>
               <div className="grid gap-3">
@@ -43,15 +142,23 @@ export function SignUpForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
-              <Button type="submit" className="w-full">
-                Continue
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Creating Account..." : "Continue"}
               </Button>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">

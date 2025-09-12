@@ -45,10 +45,8 @@ export function SignInForm({
         },
       });
       console.log("Sign-in successful:", data);
-      // Handle successful sign-in (e.g., redirect, store token, etc.)
     } catch (err) {
       console.error("Error during sign-in:", err);
-      // Handle error (e.g., show error message to user)
       const errorMessage =
         err instanceof Error ? err.message : "An unknown error occurred";
       alert(`Sign-in failed: ${errorMessage}`);
