@@ -1,6 +1,6 @@
 "use client";
-import { OnboardingProvider } from "@/components/onboarding/onboarding-context";
-import { OnboardingFlow } from "@/components/onboarding/onboarding-flow";
+import { OnboardingProvider } from "@/components/auth/onboarding/onboarding-context";
+import { OnboardingFlow } from "@/components/auth/onboarding/onboarding-flow";
 
 interface OnboardingPageProps {
   searchParams: {

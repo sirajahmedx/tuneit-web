@@ -1,45 +1,53 @@
-"use client"
-import { useState } from "react"
-import { useOnboarding } from "../onboarding-context"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card } from "@/components/ui/card"
-import { Eye, EyeOff, Mail, Lock, Shield } from "lucide-react"
+"use client";
+import { useState } from "react";
+import { useOnboarding } from "../onboarding-context";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card } from "@/components/ui/card";
+import { Eye, EyeOff, Mail, Lock, Shield } from "lucide-react";
 
 export function EmailPasswordStep() {
-  const { data, updateData, nextStep, signInType } = useOnboarding()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const { data, updateData, nextStep, signInType } = useOnboarding();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const isGoogleSignIn = signInType === "google"
-  const isEmailSignIn = signInType === "email"
+  const isGoogleSignIn = signInType === "google";
+  const isEmailSignIn = signInType === "email";
 
   const handleNext = () => {
     // Placeholder validation
     if (!data.email) {
-      console.log("Email validation would trigger here")
-      return
+      console.log("Email validation would trigger here");
+      return;
     }
 
-    if ((isEmailSignIn || data.createPassword) && (!data.password || !data.confirmPassword)) {
-      console.log("Password validation would trigger here")
-      return
+    if (
+      (isEmailSignIn || data.createPassword) &&
+      (!data.password || !data.confirmPassword)
+    ) {
+      console.log("Password validation would trigger here");
+      return;
     }
 
-    if ((isEmailSignIn || data.createPassword) && data.password !== data.confirmPassword) {
-      console.log("Password match validation would trigger here")
-      return
+    if (
+      (isEmailSignIn || data.createPassword) &&
+      data.password !== data.confirmPassword
+    ) {
+      console.log("Password match validation would trigger here");
+      return;
     }
 
-    nextStep()
-  }
+    nextStep();
+  };
 
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold">{isGoogleSignIn ? "Complete Your Account" : "Create Your Account"}</h2>
+        <h2 className="text-2xl font-semibold">
+          {isGoogleSignIn ? "Complete Your Account" : "Create Your Account"}
+        </h2>
         <p className="text-muted-foreground text-sm">
           {isGoogleSignIn
             ? "We need a few more details to set up your account"
@@ -49,7 +57,10 @@ export function EmailPasswordStep() {
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-sm font-medium flex items-center gap-2">
+          <Label
+            htmlFor="email"
+            className="text-sm font-medium flex items-center gap-2"
+          >
             <Mail className="w-4 h-4" />
             Email Address
           </Label>
@@ -69,16 +80,22 @@ export function EmailPasswordStep() {
               <Checkbox
                 id="create-password"
                 checked={data.createPassword}
-                onCheckedChange={(checked) => updateData({ createPassword: !!checked })}
+                onCheckedChange={(checked) =>
+                  updateData({ createPassword: !!checked })
+                }
                 className="mt-0.5"
               />
               <div className="space-y-1">
-                <Label htmlFor="create-password" className="text-sm font-medium cursor-pointer flex items-center gap-2">
+                <Label
+                  htmlFor="create-password"
+                  className="text-sm font-medium cursor-pointer flex items-center gap-2"
+                >
                   <Shield className="w-4 h-4" />
                   Create a password for email sign-in
                 </Label>
                 <p className="text-xs text-muted-foreground">
-                  This allows you to sign in with email and password in the future, even without using Google.
+                  This allows you to sign in with email and password in the
+                  future, even without using Google.
                 </p>
               </div>
             </div>
@@ -88,7 +105,10 @@ export function EmailPasswordStep() {
         {(isEmailSignIn || data.createPassword) && (
           <div className="space-y-4 transition-all duration-200">
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium flex items-center gap-2">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium flex items-center gap-2"
+              >
                 <Lock className="w-4 h-4" />
                 Password
               </Label>
@@ -108,7 +128,11 @@ export function EmailPasswordStep() {
                   className="absolute right-0 top-0 h-10 w-10 p-0"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
             </div>
@@ -123,7 +147,9 @@ export function EmailPasswordStep() {
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm your password"
                   value={data.confirmPassword}
-                  onChange={(e) => updateData({ confirmPassword: e.target.value })}
+                  onChange={(e) =>
+                    updateData({ confirmPassword: e.target.value })
+                  }
                   className="h-10 pr-10"
                 />
                 <Button
@@ -133,7 +159,11 @@ export function EmailPasswordStep() {
                   className="absolute right-0 top-0 h-10 w-10 p-0"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
             </div>
@@ -171,5 +201,5 @@ export function EmailPasswordStep() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -22,7 +22,7 @@ export function HeroSection() {
             asChild
             className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg"
           >
-            <Link href="/sign-up?role=user">Sign up as User</Link>
+            <Link href="/auth/sign-up?role=user">Sign up as User</Link>
           </Button>
           <Button
             size="lg"
@@ -30,7 +30,7 @@ export function HeroSection() {
             asChild
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg"
           >
-            <Link href="/sign-up?role=mechanic">Sign up as Mechanic</Link>
+            <Link href="/auth/sign-up?role=mechanic">Sign up as Mechanic</Link>
           </Button>
         </div>
       </div>

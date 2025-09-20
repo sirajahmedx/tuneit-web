@@ -29,7 +29,7 @@ export default function SignUpPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="px-8 py-4 text-lg" asChild>
-              <Link href="/sign-up?role=user">Sign up as User</Link>
+              <Link href="/auth/sign-up?role=user">Sign up as User</Link>
             </Button>
             <Button
               size="lg"
@@ -37,7 +37,9 @@ export default function SignUpPage() {
               className="px-8 py-4 text-lg border-primary text-primary hover:bg-primary hover:text-primary-foreground"
               asChild
             >
-              <Link href="/sign-up?role=mechanic">Sign up as Mechanic</Link>
+              <Link href="/auth/sign-up?role=mechanic">
+                Sign up as Mechanic
+              </Link>
             </Button>
           </div>
         </div>

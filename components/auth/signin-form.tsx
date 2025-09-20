@@ -46,7 +46,7 @@ export function SignInForm({
         },
       });
       console.log("Sign-in successful:", data);
-      router.push("/onboarding?signInType=local&role=" + (role || "user"));
+      router.push("/auth/onboarding?signInType=local&role=" + (role || "user"));
     } catch (err) {
       console.error("Error during sign-in:", err);
       const errorMessage =
@@ -117,7 +117,7 @@ export function SignInForm({
                   onClick={() =>
                     signIn("google", {
                       callbackUrl:
-                        "/onboarding?signInType=google&role=" +
+                        "/auth/onboarding?signInType=google&role=" +
                         (role || "user"),
                     })
                   }
@@ -133,7 +133,10 @@ export function SignInForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Link href="/sign-up" className="underline underline-offset-4">
+                <Link
+                  href="/auth/sign-up"
+                  className="underline underline-offset-4"
+                >
                   Sign up
                 </Link>
               </div>

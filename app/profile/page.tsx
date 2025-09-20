@@ -26,7 +26,7 @@ export default function ProfilePage() {
           <CardContent>
             <p>You need to be signed in to view this page.</p>
             <Button
-              onClick={() => (window.location.href = "/sign-in")}
+              onClick={() => (window.location.href = "/auth/sign-in")}
               className="mt-4"
             >
               Sign In

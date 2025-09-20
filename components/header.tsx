@@ -34,8 +34,11 @@ const Header: React.FC = () => {
               </Avatar>
             </div>
           ) : (
-            <Link href="/sign-in" passHref>
-              <Button onClick={() => navigate("/sign-in")} variant="default">
+            <Link href="/auth/sign-in" passHref>
+              <Button
+                onClick={() => navigate("/auth/sign-in")}
+                variant="default"
+              >
                 Sign In
               </Button>
             </Link>

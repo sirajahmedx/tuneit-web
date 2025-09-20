@@ -1,15 +1,19 @@
-"use client"
+"use client";
 
-import { useOnboarding } from "./onboarding-context"
+import { useOnboarding } from "./onboarding-context";
 
 interface StepHeaderProps {
-  title: string
-  description: string
-  showProgress?: boolean
+  title: string;
+  description: string;
+  showProgress?: boolean;
 }
 
-export function StepHeader({ title, description, showProgress = true }: StepHeaderProps) {
-  const { currentStep, totalSteps } = useOnboarding()
+export function StepHeader({
+  title,
+  description,
+  showProgress = true,
+}: StepHeaderProps) {
+  const { currentStep, totalSteps } = useOnboarding();
 
   return (
     <div className="text-center space-y-3 mb-8">
@@ -25,8 +29,10 @@ export function StepHeader({ title, description, showProgress = true }: StepHead
 
       <div className="space-y-2">
         <h2 className="text-2xl font-semibold text-balance">{title}</h2>
-        <p className="text-muted-foreground text-pretty max-w-md mx-auto">{description}</p>
+        <p className="text-muted-foreground text-pretty max-w-md mx-auto">
+          {description}
+        </p>
       </div>
     </div>
-  )
+  );
 }

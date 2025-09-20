@@ -66,7 +66,7 @@ export function SignUpForm({
 
         if (data?.createCustomer?.success) {
           router.push(
-            "/sign-in?message=Account created successfully&role=" + role
+            "/auth/sign-in?message=Account created successfully&role=" + role
           );
         } else {
           setError(data?.createCustomer?.message || "Failed to create account");
@@ -87,7 +87,7 @@ export function SignUpForm({
 
         if (data?.createMechanic?.success) {
           router.push(
-            "/sign-in?message=Account created successfully&role=" + role
+            "/auth/sign-in?message=Account created successfully&role=" + role
           );
         } else {
           setError(data?.createMechanic?.message || "Failed to create account");
@@ -175,7 +175,7 @@ export function SignUpForm({
                   onClick={() =>
                     signIn("google", {
                       callbackUrl:
-                        "/onboarding?signInType=google&role=" +
+                        "/auth/onboarding?signInType=google&role=" +
                         (role || "user"),
                     })
                   }
@@ -194,7 +194,10 @@ export function SignUpForm({
               </div>
               <div className="text-center text-sm">
                 Already have an account?{" "}
-                <Link href="/sign-in" className="underline underline-offset-4">
+                <Link
+                  href="/auth/sign-in"
+                  className="underline underline-offset-4"
+                >
                   Sign in
                 </Link>
               </div>

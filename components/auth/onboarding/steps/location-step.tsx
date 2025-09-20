@@ -1,43 +1,43 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useOnboarding } from "../onboarding-context"
-import { StepNavigation } from "../step-navigation"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { MapPin, Globe, Shield, CheckCircle } from "lucide-react"
+import { useState } from "react";
+import { useOnboarding } from "../onboarding-context";
+import { StepNavigation } from "../step-navigation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { MapPin, Globe, Shield, CheckCircle } from "lucide-react";
 
 export function LocationStep() {
-  const { data, updateData, handleSubmit, previousStep } = useOnboarding()
-  const [isRemote, setIsRemote] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { data, updateData, handleSubmit, previousStep } = useOnboarding();
+  const [isRemote, setIsRemote] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFinish = async () => {
     // Placeholder validation
     if (!isRemote && (!data.city || !data.country)) {
-      console.log("Location validation would trigger here")
-      return
+      console.log("Location validation would trigger here");
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     // Simulate API call delay
     setTimeout(() => {
-      handleSubmit()
-      setIsSubmitting(false)
-    }, 2000)
-  }
+      handleSubmit();
+      setIsSubmitting(false);
+    }, 2000);
+  };
 
   const handleRemoteToggle = (checked: boolean) => {
-    setIsRemote(checked)
+    setIsRemote(checked);
     if (checked) {
-      updateData({ city: "Remote", country: "Worldwide" })
+      updateData({ city: "Remote", country: "Worldwide" });
     } else {
-      updateData({ city: "", country: "" })
+      updateData({ city: "", country: "" });
     }
-  }
+  };
 
   const popularCountries = [
     "United States",
@@ -50,14 +50,17 @@ export function LocationStep() {
     "Sweden",
     "Japan",
     "Singapore",
-  ]
+  ];
 
   return (
     <div className="space-y-8">
       <div className="text-center space-y-3">
-        <h2 className="text-3xl font-bold text-balance">Where are you located?</h2>
+        <h2 className="text-3xl font-bold text-balance">
+          Where are you located?
+        </h2>
         <p className="text-muted-foreground text-lg leading-relaxed max-w-lg mx-auto">
-          This helps us show you relevant opportunities and connect you with local communities
+          This helps us show you relevant opportunities and connect you with
+          local communities
         </p>
       </div>
 
@@ -71,11 +74,16 @@ export function LocationStep() {
               className="mt-1 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
             />
             <div className="space-y-2">
-              <Label htmlFor="remote-work" className="text-sm font-medium cursor-pointer flex items-center gap-2">
-                <Globe className="w-4 h-4 text-primary" />I work remotely / I'm location flexible
+              <Label
+                htmlFor="remote-work"
+                className="text-sm font-medium cursor-pointer flex items-center gap-2"
+              >
+                <Globe className="w-4 h-4 text-primary" />I work remotely / I'm
+                location flexible
               </Label>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Select this if you work from anywhere or are open to remote opportunities
+                Select this if you work from anywhere or are open to remote
+                opportunities
               </p>
             </div>
           </div>
@@ -84,7 +92,10 @@ export function LocationStep() {
         {!isRemote && (
           <div className="space-y-6 animate-in slide-in-from-top-2 duration-300">
             <div className="space-y-3">
-              <Label htmlFor="city" className="flex items-center gap-2 text-sm font-medium">
+              <Label
+                htmlFor="city"
+                className="flex items-center gap-2 text-sm font-medium"
+              >
                 <MapPin className="w-4 h-4 text-primary" />
                 City
               </Label>
@@ -122,7 +133,11 @@ export function LocationStep() {
           <Card className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/30">
             <div className="flex items-center space-x-4">
               <div className="p-3 bg-primary/20 rounded-xl">
-                {isRemote ? <Globe className="w-5 h-5 text-primary" /> : <MapPin className="w-5 h-5 text-primary" />}
+                {isRemote ? (
+                  <Globe className="w-5 h-5 text-primary" />
+                ) : (
+                  <MapPin className="w-5 h-5 text-primary" />
+                )}
               </div>
               <div>
                 <p className="font-semibold text-base">Your Location</p>
@@ -144,8 +159,9 @@ export function LocationStep() {
             <div className="space-y-2">
               <p className="text-sm font-medium">Privacy & Location Data</p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your location information is used to show relevant job opportunities and local events. We never share
-                your exact location with third parties without your consent.
+                Your location information is used to show relevant job
+                opportunities and local events. We never share your exact
+                location with third parties without your consent.
               </p>
             </div>
           </div>
@@ -157,10 +173,13 @@ export function LocationStep() {
               <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-medium text-green-800 dark:text-green-200">Almost done! 🎉</p>
+              <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                Almost done! 🎉
+              </p>
               <p className="text-sm text-green-700 dark:text-green-300 leading-relaxed">
-                You're about to complete your profile setup. Once finished, you'll have access to personalized
-                recommendations and our community features.
+                You're about to complete your profile setup. Once finished,
+                you'll have access to personalized recommendations and our
+                community features.
               </p>
             </div>
           </div>
@@ -174,5 +193,5 @@ export function LocationStep() {
         isLoading={isSubmitting}
       />
     </div>
-  )
+  );
 }

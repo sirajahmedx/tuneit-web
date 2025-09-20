@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { useOnboarding } from "./onboarding-context"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import { useOnboarding } from "./onboarding-context";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 interface StepNavigationProps {
-  onNext?: () => void
-  onPrevious?: () => void
-  nextLabel?: string
-  previousLabel?: string
-  nextDisabled?: boolean
-  previousDisabled?: boolean
-  showPrevious?: boolean
-  isLoading?: boolean
+  onNext?: () => void;
+  onPrevious?: () => void;
+  nextLabel?: string;
+  previousLabel?: string;
+  nextDisabled?: boolean;
+  previousDisabled?: boolean;
+  showPrevious?: boolean;
+  isLoading?: boolean;
 }
 
 export function StepNavigation({
@@ -25,23 +25,23 @@ export function StepNavigation({
   showPrevious = true,
   isLoading = false,
 }: StepNavigationProps) {
-  const { currentStep, nextStep, previousStep } = useOnboarding()
+  const { currentStep, nextStep, previousStep } = useOnboarding();
 
   const handleNext = () => {
     if (onNext) {
-      onNext()
+      onNext();
     } else {
-      nextStep()
+      nextStep();
     }
-  }
+  };
 
   const handlePrevious = () => {
     if (onPrevious) {
-      onPrevious()
+      onPrevious();
     } else {
-      previousStep()
+      previousStep();
     }
-  }
+  };
 
   return (
     <div className="flex justify-between items-center pt-6 mt-6 border-t">
@@ -59,7 +59,11 @@ export function StepNavigation({
         <div />
       )}
 
-      <Button onClick={handleNext} disabled={nextDisabled || isLoading} className="flex items-center gap-2">
+      <Button
+        onClick={handleNext}
+        disabled={nextDisabled || isLoading}
+        className="flex items-center gap-2"
+      >
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -73,5 +77,5 @@ export function StepNavigation({
         )}
       </Button>
     </div>
-  )
+  );
 }

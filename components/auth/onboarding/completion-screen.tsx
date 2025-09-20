@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useOnboarding } from "./onboarding-context"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { CheckCircle, User, MapPin, Code, Trophy, Mail } from "lucide-react"
+import { useOnboarding } from "./onboarding-context";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle, User, MapPin, Code, Trophy, Mail } from "lucide-react";
 
 export function CompletionScreen() {
-  const { data } = useOnboarding()
+  const { data } = useOnboarding();
 
   const handleGetStarted = () => {
     // Placeholder for navigation to main app
-    console.log("Navigate to main app dashboard")
-    window.location.href = "/dashboard"
-  }
+    console.log("Navigate to main app dashboard");
+    window.location.href = "/dashboard";
+  };
 
   return (
     <div className="space-y-8">
@@ -24,13 +24,17 @@ export function CompletionScreen() {
 
         <div className="space-y-2">
           <h2 className="text-3xl font-bold">Welcome aboard! 🎉</h2>
-          <p className="text-muted-foreground text-lg">Your profile is now complete and ready to go</p>
+          <p className="text-muted-foreground text-lg">
+            Your profile is now complete and ready to go
+          </p>
         </div>
       </div>
 
       {/* Profile Summary */}
       <Card className="p-6 space-y-6">
-        <h3 className="text-lg font-semibold text-center">Your Profile Summary</h3>
+        <h3 className="text-lg font-semibold text-center">
+          Your Profile Summary
+        </h3>
 
         <div className="grid gap-4 sm:grid-cols-2">
           {/* Contact Info */}
@@ -70,7 +74,9 @@ export function CompletionScreen() {
               <Trophy className="w-4 h-4 text-primary" />
               Experience
             </div>
-            <p className="text-sm text-muted-foreground pl-6 capitalize">{data.experienceLevel}</p>
+            <p className="text-sm text-muted-foreground pl-6 capitalize">
+              {data.experienceLevel}
+            </p>
           </div>
         </div>
 
@@ -127,5 +133,5 @@ export function CompletionScreen() {
         </Button>
       </div>
     </div>
-  )
+  );
 }
