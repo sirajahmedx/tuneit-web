@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-// import { headers } from "next/headers";
+import { headers } from "next/headers";
 import Header from "@/components/header";
 import ApolloProviderWrapper from "@/components/apollo-provider";
 import { SessionProvider } from "next-auth/react";
@@ -29,11 +29,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const headerList = headers();
-  // const pathname = headerList.get("x-current-path");
+  const headerList = headers();
+  const pathname = headerList.get("x-current-path");
 
-  // const isAuthPage =
-  //   pathname?.includes("/sign-in") || pathname?.includes("/sign-up");
+  const isAuthPage =
+    pathname?.includes("/sign-in") ||
+    pathname?.includes("/sign-up") ||
+    pathname?.includes("/onboarding");
 
   return (
     <html lang="en">
@@ -48,7 +50,7 @@ export default async function RootLayout({
         >
           <ApolloProviderWrapper>
             <SessionProvider>
-              <Header />
+              {!isAuthPage && <Header />}
               {children}
             </SessionProvider>
           </ApolloProviderWrapper>

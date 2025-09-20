@@ -1,8 +1,8 @@
 "use client";
-import { SignUpForm } from "@/components/signup-form";
+import { SignUpForm } from "@/components/auth/signup-form";
 import { Button } from "@/components/ui/button";
-import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function SignUpPage() {
   const searchParams = useSearchParams();

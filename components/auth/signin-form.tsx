@@ -11,6 +11,9 @@ import { signIn } from "next-auth/react";
 import { useMutation } from "@apollo/client";
 import { SignInMutation } from "@/app/(auth)/queries.js";
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Loader from "../loader";
+import ErrorMessage from "../error";
 
 export function SignInForm({
   className,
@@ -21,15 +24,13 @@ export function SignInForm({
     email: "",
     password: "",
   });
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      console.log("Attempting sign-in with:", {
-        email: user.email,
-        password: "***",
-      });
-
       if (!SignIn) {
         throw new Error(
           "SignIn mutation is not available. Apollo Client may not be initialized."
@@ -45,6 +46,7 @@ export function SignInForm({
         },
       });
       console.log("Sign-in successful:", data);
+      router.push("/onboarding?signInType=local&role=" + (role || "user"));
     } catch (err) {
       console.error("Error during sign-in:", err);
       const errorMessage =
@@ -52,6 +54,10 @@ export function SignInForm({
       alert(`Sign-in failed: ${errorMessage}`);
     }
   };
+
+  if (error) {
+    return <ErrorMessage error={error} fullscreen />;
+  }
 
   return (
     <div className={cn("flex flex-col gap-4", className)} {...props}>
@@ -96,7 +102,7 @@ export function SignInForm({
                 />
               </div>
               <Button type="submit" className="w-full">
-                Login
+                {loading ? <Loader size="small" /> : "Login"}
               </Button>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
@@ -108,7 +114,13 @@ export function SignInForm({
                   variant="outline"
                   type="button"
                   className="w-full"
-                  onClick={() => signIn("google")}
+                  onClick={() =>
+                    signIn("google", {
+                      callbackUrl:
+                        "/onboarding?signInType=google&role=" +
+                        (role || "user"),
+                    })
+                  }
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
