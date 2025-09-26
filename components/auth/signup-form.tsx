@@ -1,19 +1,19 @@
 "use client";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  CREATE_CUSTOMER_MUTATION,
+  CREATE_MECHANIC_MUTATION,
+} from "@/lib/queries";
+import { cn } from "@/lib/utils";
+import { useMutation } from "@apollo/client";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import {
-  CREATE_MECHANIC_MUTATION,
-  CREATE_CUSTOMER_MUTATION,
-} from "@/lib/queries";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export function SignUpForm({
   role,
@@ -28,6 +28,7 @@ export function SignUpForm({
     gender: "",
     experience: "",
   });
+  const [uri, setUri] = useState("/");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -65,9 +66,7 @@ export function SignUpForm({
         });
 
         if (data?.createCustomer?.success) {
-          router.push(
-            "/auth/sign-in?message=Account created successfully&role=" + role
-          );
+          router.push("/auth/sign-in&?role=" + role);
         } else {
           setError(data?.createCustomer?.message || "Failed to create account");
         }
@@ -86,9 +85,7 @@ export function SignUpForm({
         });
 
         if (data?.createMechanic?.success) {
-          router.push(
-            "/auth/sign-in?message=Account created successfully&role=" + role
-          );
+          router.push("/auth/sign-in&?role=" + role);
         } else {
           setError(data?.createMechanic?.message || "Failed to create account");
         }

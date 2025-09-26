@@ -1,59 +1,86 @@
-"use client"
+"use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { useMutation } from "@apollo/client";
+import { createContext, useContext, useState, type ReactNode } from "react";
+import { updateMechanicMutation } from "./queries";
 
 export interface OnboardingData {
   // Auth step
-  email: string
-  password: string
-  confirmPassword: string
-  createPassword: boolean
+  email: string;
+  password: string;
+  confirmPassword: string;
+  createPassword: boolean;
 
   // Personal details
-  age: string
-  gender: string
+  age: string;
+  gender: string;
 
   // Skills
-  skills: string[]
+  skills: string[];
 
   // Experience
-  experienceLevel: "beginner" | "intermediate" | "advanced" | "expert" | ""
+  experience: string;
 
   // Location
-  city: string
-  country: string
+  city: string;
+  country: string;
+
+  // New fields for image uploads
+  cnic_front: String | null;
+  cnic_back: String | null;
+  avatar: String | null;
+
+  // Additional fields to match the final JSON structure
+  role: string;
+  cnic: string;
+  _id: string | null;
+  address: {
+    city: string | null;
+    flat: string | null;
+    full_address: string | null;
+    is_default: boolean | null;
+    location: {
+      type: string | null;
+      coordinates: [number, number] | null;
+    };
+  }[];
 }
 
 interface OnboardingContextType {
-  currentStep: number
-  totalSteps: number
-  data: OnboardingData
-  signInType: string
-  updateData: (updates: Partial<OnboardingData>) => void
-  nextStep: () => void
-  previousStep: () => void
-  goToStep: (step: number) => void
-  handleSubmit: () => void
+  currentStep: number;
+  totalSteps: number;
+  data: OnboardingData;
+  signInType: string;
+  updateData: (updates: Partial<OnboardingData>) => void;
+  nextStep: () => void;
+  previousStep: () => void;
+  goToStep: (step: number) => void;
+  handleSubmit: () => void;
 }
 
-const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined)
+const OnboardingContext = createContext<OnboardingContextType | undefined>(
+  undefined
+);
 
 export function useOnboarding() {
-  const context = useContext(OnboardingContext)
+  const context = useContext(OnboardingContext);
   if (!context) {
-    throw new Error("useOnboarding must be used within an OnboardingProvider")
+    throw new Error("useOnboarding must be used within an OnboardingProvider");
   }
-  return context
+  return context;
 }
 
 interface OnboardingProviderProps {
-  children: ReactNode
-  signInType: string
+  children: ReactNode;
+  signInType: string;
 }
 
-export function OnboardingProvider({ children, signInType }: OnboardingProviderProps) {
-  const [currentStep, setCurrentStep] = useState(1)
-  const totalSteps = 5
+export function OnboardingProvider({
+  children,
+  signInType,
+}: OnboardingProviderProps) {
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 6;
 
   const [data, setData] = useState<OnboardingData>({
     email: "",
@@ -63,49 +90,110 @@ export function OnboardingProvider({ children, signInType }: OnboardingProviderP
     age: "",
     gender: "",
     skills: [],
-    experienceLevel: "",
+    experience: "",
     city: "",
     country: "",
-  })
+    cnic_front: null,
+    cnic_back: null,
+    avatar: null,
+    role: "",
+    cnic: "",
+    _id: null,
+    address: [
+      {
+        city: null,
+        flat: null,
+        full_address: null,
+        is_default: null,
+        location: {
+          type: null,
+          coordinates: null,
+        },
+      },
+    ],
+  });
+
+  const [updateMechanic, { loading: updatingUser }] = useMutation(
+    updateMechanicMutation
+  );
 
   const updateData = (updates: Partial<OnboardingData>) => {
-    setData((prev) => ({ ...prev, ...updates }))
-  }
+    setData((prev) => ({ ...prev, ...updates }));
+  };
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
-      setCurrentStep((prev) => prev + 1)
+      setCurrentStep((prev) => prev + 1);
       // Placeholder for validation logic
-      handleNext()
+      handleNext();
     }
-  }
+  };
 
   const previousStep = () => {
     if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1)
+      setCurrentStep((prev) => prev - 1);
       // Placeholder for navigation logic
-      handlePrevious()
+      handlePrevious();
     }
-  }
+  };
 
   const goToStep = (step: number) => {
     if (step >= 1 && step <= totalSteps) {
-      setCurrentStep(step)
+      setCurrentStep(step);
     }
-  }
+  };
 
   // Placeholder functions for backend integration
   const handleNext = () => {
-    console.log("Next step logic would go here")
-  }
+    console.log("Next step logic would go here");
+  };
 
   const handlePrevious = () => {
-    console.log("Previous step logic would go here")
-  }
+    console.log("Previous step logic would go here");
+  };
 
-  const handleSubmit = () => {
-    console.log("Final submission logic would go here", data)
-  }
+  const handleSubmit = async () => {
+    // Exclude confirmPassword from the data sent to backend
+    const { confirmPassword, createPassword, age, skills, ...dataToSubmit } =
+      data;
+
+    // Map the data to the required input structure
+    const input = {
+      email: dataToSubmit.email,
+      _id: dataToSubmit._id || "68ce501aa6462a998ffab11b",
+      gender: dataToSubmit.gender,
+      role: dataToSubmit.role,
+      cnic: dataToSubmit.cnic || "",
+      cnic_front: dataToSubmit.cnic_front || "",
+      cnic_back: dataToSubmit.cnic_back || "",
+      experience: dataToSubmit.experience,
+      avatar: dataToSubmit.avatar,
+      address: dataToSubmit.address.map((addr) => ({
+        city: addr.city || dataToSubmit.city,
+        flat: addr.flat,
+        full_address: addr.full_address,
+        is_default: addr.is_default,
+        location: addr.location,
+      })),
+    };
+
+    try {
+      const { data: result } = await updateMechanic({
+        variables: { input: input },
+      });
+
+      if (result.updateMechanic.success) {
+        setCurrentStep(6); // Navigate to completion screen
+        console.log("Update successful:", result);
+      } else {
+        console.error("Update failed:", result.updateMechanic.message);
+      }
+      // Handle success, e.g., redirect or show completion
+    } catch (error) {
+      console.error("Update failed:", error);
+      // Handle error
+    }
+  };
 
   return (
     <OnboardingContext.Provider
@@ -123,5 +211,5 @@ export function OnboardingProvider({ children, signInType }: OnboardingProviderP
     >
       {children}
     </OnboardingContext.Provider>
-  )
+  );
 }

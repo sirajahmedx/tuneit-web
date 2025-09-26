@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useMutation } from "@apollo/client";
-import { SignInMutation } from "@/app/(auth)/queries.js";
+import { SignInMutation } from "@/app/(auth)/queries";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "../loader";
@@ -45,10 +45,10 @@ export function SignInForm({
           },
         },
       });
-      console.log("Sign-in successful:", data);
-      router.push("/auth/onboarding?signInType=local&role=" + (role || "user"));
+      if (data.signIn.success) {
+        router.push("/onboarding?signInType=local&role=" + (role || "user"));
+      }
     } catch (err) {
-      console.error("Error during sign-in:", err);
       const errorMessage =
         err instanceof Error ? err.message : "An unknown error occurred";
       alert(`Sign-in failed: ${errorMessage}`);

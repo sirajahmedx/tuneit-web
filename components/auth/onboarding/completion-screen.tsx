@@ -74,8 +74,8 @@ export function CompletionScreen() {
               <Trophy className="w-4 h-4 text-primary" />
               Experience
             </div>
-            <p className="text-sm text-muted-foreground pl-6 capitalize">
-              {data.experienceLevel}
+            <p className="text-sm text-muted-foreground pl-6">
+              {data.experience} years
             </p>
           </div>
         </div>

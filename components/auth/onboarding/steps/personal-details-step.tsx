@@ -88,6 +88,45 @@ export function PersonalDetailsStep() {
           </Select>
         </div>
 
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">CNIC Front</Label>
+          <Input
+            id="cnic_front"
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              updateData({ cnic_front: e.target.files?.[0].name || null })
+            }
+            className="h-10"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">CNIC Back</Label>
+          <Input
+            id="cnic_back"
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              updateData({ cnic_back: e.target.files?.[0].name || null })
+            }
+            className="h-10"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Avatar</Label>
+          <Input
+            id="avatar"
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              updateData({ avatar: e.target.files?.[0].name || null })
+            }
+            className="h-10"
+          />
+        </div>
+
         <Card className="p-4 bg-muted/50">
           <div className="flex items-start space-x-3">
             <Shield className="w-4 h-4 mt-0.5 text-muted-foreground" />
