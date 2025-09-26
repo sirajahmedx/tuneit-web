@@ -35,7 +35,8 @@ export default async function RootLayout({
   const isAuthPage =
     pathname?.includes("/auth/sign-in") ||
     pathname?.includes("/auth/sign-up") ||
-    pathname?.includes("/auth/onboarding");
+    pathname?.includes("/auth/onboarding") ||
+    pathname?.includes("/dashboard");
 
   return (
     <html lang="en">
