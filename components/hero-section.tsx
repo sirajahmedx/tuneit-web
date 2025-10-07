@@ -2,11 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useTheme } from "next-themes";
 
 export function HeroSection() {
-  const { theme } = useTheme();
-
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-screen w-screen text-center px-4">
       <div className="max-w-4xl mx-auto">

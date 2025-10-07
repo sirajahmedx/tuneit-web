@@ -10,7 +10,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MapPin, Globe, Shield, CheckCircle } from "lucide-react";
 
 export function LocationStep() {
-  const { data, updateData, handleSubmit, previousStep } = useOnboarding();
+  const {
+    data,
+    updateData,
+    handleSubmit,
+    previousStep: _previousStep,
+  } = useOnboarding();
   const [isRemote, setIsRemote] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -78,8 +83,8 @@ export function LocationStep() {
                 htmlFor="remote-work"
                 className="text-sm font-medium cursor-pointer flex items-center gap-2"
               >
-                <Globe className="w-4 h-4 text-primary" />I work remotely / I'm
-                location flexible
+                <Globe className="w-4 h-4 text-primary" />I work remotely /
+                I&apos;m location flexible
               </Label>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Select this if you work from anywhere or are open to remote
@@ -177,8 +182,8 @@ export function LocationStep() {
                 Almost done! 🎉
               </p>
               <p className="text-sm text-green-700 dark:text-green-300 leading-relaxed">
-                You're about to complete your profile setup. Once finished,
-                you'll have access to personalized recommendations and our
+                You&apos;re about to complete your profile setup. Once finished,
+                you&apos;ll have access to personalized recommendations and our
                 community features.
               </p>
             </div>

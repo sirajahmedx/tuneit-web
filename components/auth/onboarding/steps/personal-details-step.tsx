@@ -15,7 +15,12 @@ import { Card } from "@/components/ui/card";
 import { User, Calendar, Shield } from "lucide-react";
 
 export function PersonalDetailsStep() {
-  const { data, updateData, nextStep, previousStep } = useOnboarding();
+  const {
+    data,
+    updateData,
+    nextStep,
+    previousStep: _previousStep,
+  } = useOnboarding();
 
   const handleNext = () => {
     // Placeholder validation

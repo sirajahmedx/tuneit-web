@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Briefcase,
-  CircleDollarSign,
-  History,
-  Home,
-  Search,
-  Star,
-  User,
-} from "lucide-react";
+import { Briefcase, CircleDollarSign, History, Home } from "lucide-react";
 import * as React from "react";
 
 import { NavMain } from "@/components/dashboard/nav-main";

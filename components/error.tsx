@@ -2,7 +2,7 @@ import React from "react";
 
 interface ErrorObject {
   message: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ErrorMessageProps {

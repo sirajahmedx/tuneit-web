@@ -26,9 +26,9 @@ export interface OnboardingData {
   country: string;
 
   // New fields for image uploads
-  cnic_front: String | null;
-  cnic_back: String | null;
-  avatar: String | null;
+  cnic_front: string | null;
+  cnic_back: string | null;
+  avatar: string | null;
 
   // Additional fields to match the final JSON structure
   role: string;
@@ -113,9 +113,7 @@ export function OnboardingProvider({
     ],
   });
 
-  const [updateMechanic, { loading: updatingUser }] = useMutation(
-    updateMechanicMutation
-  );
+  const [updateMechanic] = useMutation(updateMechanicMutation);
 
   const updateData = (updates: Partial<OnboardingData>) => {
     setData((prev) => ({ ...prev, ...updates }));
@@ -154,8 +152,13 @@ export function OnboardingProvider({
 
   const handleSubmit = async () => {
     // Exclude confirmPassword from the data sent to backend
-    const { confirmPassword, createPassword, age, skills, ...dataToSubmit } =
-      data;
+    const {
+      confirmPassword: _confirmPassword,
+      createPassword: _createPassword,
+      age: _age,
+      skills: _skills,
+      ...dataToSubmit
+    } = data;
 
     // Map the data to the required input structure
     const input = {

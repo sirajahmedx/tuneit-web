@@ -21,7 +21,12 @@ import {
 import { cn } from "@/lib/utils";
 
 export function SkillsStep() {
-  const { data, updateData, nextStep, previousStep } = useOnboarding();
+  const {
+    data,
+    updateData,
+    nextStep,
+    previousStep: _previousStep,
+  } = useOnboarding();
   const [customSkill, setCustomSkill] = useState("");
 
   const predefinedSkills = [

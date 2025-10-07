@@ -8,7 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Briefcase, Info } from "lucide-react";
 
 export function ExperienceStep() {
-  const { data, updateData, nextStep, previousStep } = useOnboarding();
+  const {
+    data,
+    updateData,
+    nextStep,
+    previousStep: _previousStep,
+  } = useOnboarding();
 
   const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -58,7 +63,7 @@ export function ExperienceStep() {
               />
             </div>
             <p className="text-sm text-muted-foreground">
-              Enter 0 if you're just starting out
+              Enter 0 if you&apos;re just starting out
             </p>
           </div>
         </Card>
@@ -71,7 +76,7 @@ export function ExperienceStep() {
           </div>
           <div className="space-y-2">
             <p className="text-sm font-medium">
-              Don't worry about being perfect
+              Don&apos;t worry about being perfect
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Your experience level helps us show you the most relevant content.

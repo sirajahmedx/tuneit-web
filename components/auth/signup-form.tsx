@@ -28,7 +28,7 @@ export function SignUpForm({
     gender: "",
     experience: "",
   });
-  const [uri, setUri] = useState("/");
+  const [_uri, _setUri] = useState("/");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -90,8 +90,10 @@ export function SignUpForm({
           setError(data?.createMechanic?.message || "Failed to create account");
         }
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred during sign up");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : "An error occurred during sign up"
+      );
     } finally {
       setLoading(false);
     }

@@ -28,7 +28,7 @@ export function SignInForm({
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (!SignIn) {
@@ -56,7 +56,7 @@ export function SignInForm({
   };
 
   if (error) {
-    return <ErrorMessage error={error} fullscreen />;
+    return <ErrorMessage error={error as any} fullscreen />;
   }
 
   return (

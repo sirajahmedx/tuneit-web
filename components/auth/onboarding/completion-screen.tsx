@@ -104,7 +104,7 @@ export function CompletionScreen() {
       {/* Next Steps */}
       <Card className="p-6 bg-primary/5 border-primary/20">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">What's next?</h3>
+          <h3 className="text-lg font-semibold">What&apos;s next?</h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
