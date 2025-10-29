@@ -1,8 +1,18 @@
 "use client";
-import { ApolloProvider } from "@apollo/client";
 
-import { apolloClient } from "@/lib/apollo";
+import { ApolloProvider } from "@apollo/client";
+import { useState, useEffect } from "react";
+import { createApolloClient } from "@/lib/apollo";
 
 export default function ApolloProviderWrapper({ children }) {
-  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
+  const [client, setClient] = useState(null);
+
+  useEffect(() => {
+    const client = createApolloClient();
+    setClient(client);
+  }, []);
+
+  if (!client) return null;
+
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

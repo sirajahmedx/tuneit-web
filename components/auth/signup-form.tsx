@@ -4,9 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  CREATE_CUSTOMER_MUTATION,
-  CREATE_MECHANIC_MUTATION,
-} from "@/lib/queries";
+  CreateCustomerMutation,
+  CreateMechanicMutation,
+} from "@/app/(auth)/queries";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@apollo/client";
 import { signIn } from "next-auth/react";
@@ -33,8 +33,8 @@ export function SignUpForm({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [createCustomer] = useMutation(CREATE_CUSTOMER_MUTATION);
-  const [createMechanic] = useMutation(CREATE_MECHANIC_MUTATION);
+  const [createCustomer] = useMutation(CreateCustomerMutation);
+  const [createMechanic] = useMutation(CreateMechanicMutation);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -66,7 +66,7 @@ export function SignUpForm({
         });
 
         if (data?.createCustomer?.success) {
-          router.push("/auth/sign-in&?role=" + role);
+          router.push("/auth/sign-in");
         } else {
           setError(data?.createCustomer?.message || "Failed to create account");
         }

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "../loader";
 import ErrorMessage from "../error";
+import { setCookie } from "cookies-next";
 
 export function SignInForm({
   className,
@@ -45,8 +46,22 @@ export function SignInForm({
           },
         },
       });
-      if (data.signIn.success) {
-        router.push("/onboarding?signInType=local&role=" + (role || "user"));
+      if (data?.signIn?.success) {
+        const { role, onboarded, token } = data.signIn.data;
+
+        if (token) {
+          setCookie("token", token);
+
+          if (!onboarded && role === "mechanic") {
+            router.push("/auth/onboarding?role=mechanic");
+          } else {
+            router.push("/");
+          }
+        } else {
+          throw new Error("Authentication token is missing.");
+        }
+      } else {
+        throw new Error("Sign-in failed. Please try again.");
       }
     } catch (err) {
       const errorMessage =

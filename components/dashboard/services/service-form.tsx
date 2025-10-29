@@ -23,6 +23,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { createServiceMutatoin } from "@/app/(dashboard)/dashboard/[role]/(admin)/services/operations";
+import { useMutation } from "@apollo/client";
 
 interface PriceItem {
   label: string;
@@ -41,6 +43,12 @@ export function ServiceForm() {
   const [featured, setFeatured] = useState(false);
   const [keywords, setKeywords] = useState<string[]>([""]);
   const [serviceCount, setServiceCount] = useState(0);
+
+  //mutations
+
+  const [CreateService, { loading, error }] = useMutation(
+    createServiceMutatoin
+  );
 
   const addPriceItem = () => {
     setPrices([...prices, { label: "", price: 0 }]);
@@ -88,7 +96,7 @@ export function ServiceForm() {
     setKeywords(newKeywords);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = {
       name,
@@ -104,6 +112,14 @@ export function ServiceForm() {
       service_count: serviceCount,
     };
     console.log("Form submitted:", formData);
+    const { data } = await CreateService({
+      variables: {
+        input: {
+          ...formData,
+        },
+      },
+    });
+    console.log("Service creation response:", data);
   };
 
   return (
