@@ -48,6 +48,7 @@ export function SignInForm({
       });
       if (data?.signIn?.success) {
         const { role, onboarded, token } = data.signIn.data;
+        console.log(data);
 
         if (token) {
           setCookie("token", token);
